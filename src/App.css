@@ -1,0 +1,14 @@
+.App {
+  text-align: center;
+}
+
+.inputbox {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  margin: auto;
+}
+
+.treeWrapper {
+  align-self: center;
+}
