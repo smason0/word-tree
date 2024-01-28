@@ -106,8 +106,6 @@ function App() {
     let nodes = [];
     getInorderNodes(root, nodes);
 
-    console.log(nodes)
-
     const newRoot = buildBST(nodes, 0, nodes.length - 1);
 
     setIsBalanced(true);
