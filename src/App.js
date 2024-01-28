@@ -1,34 +1,14 @@
 import React, { useState, useRef } from 'react';
 import Tree from 'react-d3-tree';
+import { TreeNode, TreeNodeDatum, EmptyNodeDatum } from './objects';
 import './App.css';
-
-class TreeNode {
-  constructor(val, left, right) {
-    this.val = val;
-    this.left = left;
-    this.right = right;
-  }
-}
-
-class TreeNodeDatum {
-  constructor(name) {
-    this.name = name;
-  }
-
-  children = [];
-}
-
-class EmptyNodeDatum extends TreeNodeDatum {
-  constructor() {
-    super();
-    this.name = '';
-  }
-}
 
 function App() {
   const [treeData, setTreeData] = useState(null);
   const [wordCount, setWordCount] = useState(null);
   const [translate, setTranslate] = useState(null);
+  const [treeNodes, setTreeNodes] = useState(null);
+  const [isBalanced, setIsBalanced] = useState(false);
   const textareaRef = useRef();
   const treeWrapperRef = useRef();
   const wordMap = new Map();
@@ -43,7 +23,7 @@ function App() {
   }
 
   const insertNode = (node, value) => {
-    if (!node) {
+    if (node == null) {
       updateWordMap(value);
       return new TreeNode(value);
     }
@@ -60,7 +40,7 @@ function App() {
   }
 
   const insertDatum = (node) => {
-    if (!node) {
+    if (node == null) {
       return new EmptyNodeDatum();
     }
     let count = wordMap.get(node.val);
@@ -73,7 +53,7 @@ function App() {
 
   const generateJsonData = (node) => {
     let root;
-    if (node) {
+    if (node != null) {
       root = new TreeNodeDatum(node.val);
     }
 
@@ -91,15 +71,57 @@ function App() {
     for (let word of wordList) {
       root = insertNode(node, word);
     }
+    setTreeNodes(root);
 
     const data = generateJsonData(root);
     setTreeData(data);
+  }
+
+  const getInorderNodes = (root, nodes) => {
+    if (root == null) {
+      return;
+    }
+
+    getInorderNodes(root.left, nodes);
+    nodes.push(root);
+    getInorderNodes(root.right, nodes);
+  }
+
+  const buildBST = (nodes, start, end) => {
+    if (start > end) {
+      return null;
+    }
+
+    let mid = parseInt((start + end) / 2, 10);
+    let node = nodes[mid];
+
+    node.left = buildBST(nodes, start, mid - 1);
+    node.right = buildBST(nodes, mid + 1, end);
+
+    return node;
+  }
+
+  // Balance the tree by using inorder traversal on nodes and then binary search
+  const balanceTree = (root) => {
+    let nodes = [];
+    getInorderNodes(root, nodes);
+
+    console.log(nodes)
+
+    const newRoot = buildBST(nodes, 0, nodes.length - 1);
+
+    setIsBalanced(true);
+    return generateJsonData(newRoot);
   }
 
   const handleGenerateBtnClick = () => {
     const { value } = textareaRef.current;
     const { width, height } = treeWrapperRef.current.getBoundingClientRect();
     setTranslate({ x: width / 2, y: height / 4 });
+
+    if (isBalanced) {
+      setIsBalanced(false);
+    }
 
     if (!value) {
       setWordCount(null);
@@ -113,6 +135,13 @@ function App() {
     generateTree(rootNode, wordList);
   }
 
+  const handleBalanceBtnClick = () => {
+    if (isBalanced) {
+      return;
+    }
+    setTreeData(balanceTree(treeNodes));
+  }
+
   return (
     <div className="App">
       <div className="inputbox">
@@ -120,16 +149,17 @@ function App() {
         <textarea id="textarea" ref={textareaRef} />
       </div>
       <button className="generateButton" onClick={handleGenerateBtnClick}>Generate</button>
-      <div>
+      <button className="balanceButton" disabled={!treeData} onClick={handleBalanceBtnClick}>Balance</button>
+      <div className="wordCountLabel">
         {!!wordCount ? <span>Total words: {wordCount}</span> : null}
       </div>
-      <div id="treeWrapper" style={{ width: '100%', height: '100vh' }} ref={treeWrapperRef}>
+      <div id="treeWrapper" style={{ width: "100%", height: "100vh" }} ref={treeWrapperRef}>
         {
           treeData ? (
             <Tree
               data={treeData}
-              orientation='vertical'
-              pathFunc='straight'
+              orientation="vertical"
+              pathFunc="straight"
               separation={{ siblings: 1, nonSiblings: 1 }}
               translate={translate}
             />

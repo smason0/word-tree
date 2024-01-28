@@ -1,14 +1,46 @@
 .App {
   text-align: center;
+  background-color: #001a33;
 }
 
 .inputbox {
   display: flex;
   flex-direction: column;
-  width: 50%;
+  width: 30%;
   margin: auto;
+
+  textarea {
+    background-color: #e6e6e6;
+  }
 }
 
 .treeWrapper {
   align-self: center;
+}
+
+.textareaLabel {
+  color: #FFFFFF;
+}
+
+.wordCountLabel {
+  color: #FFFFFF;
+}
+
+.rd3t-node > circle {
+  fill: #bfbfbf;
+  stroke: #bfbfbf;
+}
+
+.rd3t-leaf-node > circle {
+  fill: #001a33;
+  stroke: #bfbfbf;
+}
+
+.rd3t-label > text {
+  fill: #FFFFFF;
+  font-size: 1.4em;
+}
+
+.rd3t-link {
+  stroke: #bfbfbf !important;
 }
