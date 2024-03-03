@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import Tree from 'react-d3-tree';
 import { TreeNode, TreeNodeDatum, EmptyNodeDatum } from './objects';
+import { ReactComponent as DarkThemeSvg } from './dark-theme.svg';
 import './App.css';
 
 function App() {
@@ -9,6 +10,7 @@ function App() {
   const [translate, setTranslate] = useState(null);
   const [treeNodes, setTreeNodes] = useState(null);
   const [isBalanced, setIsBalanced] = useState(false);
+  const [theme, setTheme] = useState('light');
   const textareaRef = useRef();
   const treeWrapperRef = useRef();
   const wordMap = new Map();
@@ -140,29 +142,36 @@ function App() {
     setTreeData(balanceTree(treeNodes));
   }
 
+  const handleThemeBtnClick = () => {
+    setTheme((theme === 'dark') ? "light" : "dark");
+  }
+
   return (
     <div className="App">
-      <div className="inputbox">
-        <label htmlFor="textarea" className="textareaLabel">Paste/enter text here:</label>
-        <textarea id="textarea" ref={textareaRef} />
-      </div>
-      <button className="generateButton" onClick={handleGenerateBtnClick}>Generate</button>
-      <button className="balanceButton" disabled={!treeData} onClick={handleBalanceBtnClick}>Balance</button>
-      <div className="wordCountLabel">
-        {!!wordCount ? <span>Total words: {wordCount}</span> : null}
-      </div>
-      <div id="treeWrapper" style={{ width: "100%", height: "100vh" }} ref={treeWrapperRef}>
-        {
-          treeData ? (
-            <Tree
-              data={treeData}
-              orientation="vertical"
-              pathFunc="straight"
-              separation={{ siblings: 1, nonSiblings: 1 }}
-              translate={translate}
-            />
-          ) : null
-        }
+      <div className={`${theme}-mode-wrapper`}>
+        <DarkThemeSvg className="themeSvg" role="button" onClick={handleThemeBtnClick} />
+        <div className="inputbox">
+          <label htmlFor="textarea" className="textareaLabel">Paste/enter text here:</label>
+          <textarea id="textarea" ref={textareaRef} />
+        </div>
+        <button className="generateButton" onClick={handleGenerateBtnClick}>Generate Tree</button>
+        <button className="balanceButton" disabled={!treeData} onClick={handleBalanceBtnClick}>Balance Tree</button>
+        <div className="wordCountLabel">
+          {!!wordCount ? <span>Total words: {wordCount}</span> : null}
+        </div>
+        <div id="treeWrapper" style={{ width: "100%", height: "100vh" }} ref={treeWrapperRef}>
+          {
+            treeData ? (
+              <Tree
+                data={treeData}
+                orientation="vertical"
+                pathFunc="straight"
+                separation={{ siblings: 1, nonSiblings: 1 }}
+                translate={translate}
+              />
+            ) : null
+          }
+        </div>
       </div>
     </div>
   );

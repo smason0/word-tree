@@ -1,6 +1,9 @@
 .App {
   text-align: center;
-  background-color: #001a33;
+
+  button:not(:disabled) { 
+    cursor:pointer;
+  } 
 }
 
 .inputbox {
@@ -10,7 +13,7 @@
   margin: auto;
 
   textarea {
-    background-color: #e6e6e6;
+    height: 50px;
   }
 }
 
@@ -18,29 +21,58 @@
   align-self: center;
 }
 
-.textareaLabel {
-  color: #FFFFFF;
-}
-
-.wordCountLabel {
-  color: #FFFFFF;
-}
-
-.rd3t-node > circle {
-  fill: #bfbfbf;
-  stroke: #bfbfbf;
-}
-
-.rd3t-leaf-node > circle {
-  fill: #001a33;
-  stroke: #bfbfbf;
-}
-
 .rd3t-label > text {
-  fill: #FFFFFF;
-  font-size: 1.4em;
+  font-size: 1.2em;
 }
 
-.rd3t-link {
-  stroke: #bfbfbf !important;
+.themeSvg {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+}
+
+.light-mode-wrapper {
+  background-color: #FFFFFF;
+
+  .inputbox {
+    textarea {
+      background-color: #FFFFFF;
+    }
+  }
+}
+
+.dark-mode-wrapper {
+  background-color: #202024;
+
+  .inputbox {
+    textarea {
+      background-color: #e6e6e6;
+    }
+  }
+  
+  .textareaLabel {
+    color: #FFFFFF;
+  }
+  
+  .wordCountLabel {
+    color: #FFFFFF;
+  }
+  
+  .rd3t-node > circle {
+    fill: #bfbfbf;
+    stroke: #bfbfbf;
+  }
+  
+  .rd3t-leaf-node > circle {
+    stroke: #bfbfbf;
+  }
+  
+  .rd3t-label > text {
+    fill: #FFFFFF;
+  }
+  
+  .rd3t-link {
+    stroke: #bfbfbf !important;
+  }
 }
