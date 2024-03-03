@@ -1,13 +1,14 @@
 {
   "files": {
-    "main.css": "/word-tree/static/css/main.e64aea4c.css",
-    "main.js": "/word-tree/static/js/main.4db0f4aa.js",
+    "main.css": "/word-tree/static/css/main.6df26ea7.css",
+    "main.js": "/word-tree/static/js/main.98aa2e49.js",
+    "static/media/dark-theme.svg": "/word-tree/static/media/dark-theme.90e4e7fe4a2dfbc7619bd7a8a2ba4e0f.svg",
     "index.html": "/word-tree/index.html",
-    "main.e64aea4c.css.map": "/word-tree/static/css/main.e64aea4c.css.map",
-    "main.4db0f4aa.js.map": "/word-tree/static/js/main.4db0f4aa.js.map"
+    "main.6df26ea7.css.map": "/word-tree/static/css/main.6df26ea7.css.map",
+    "main.98aa2e49.js.map": "/word-tree/static/js/main.98aa2e49.js.map"
   },
   "entrypoints": [
-    "static/css/main.e64aea4c.css",
-    "static/js/main.4db0f4aa.js"
+    "static/css/main.6df26ea7.css",
+    "static/js/main.98aa2e49.js"
   ]
 }
